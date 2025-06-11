@@ -1,0 +1,17 @@
+## Ignore visual studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+##Ignore build result
+bin/
+obj/
+
+##Ignore Rider IDE files
+*.tmp
+*.bak
+
+##Ignore Thumb.db
+Thumbs.db

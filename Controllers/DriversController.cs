@@ -15,26 +15,29 @@ namespace MyTaxiService.Controllers
             _context = context;
         }
 
+        // POST: api/drivers
         [HttpPost]
-        public IActionResult RegisterDriver([FromBody] Driver driver)
+        public async Task<IActionResult> RegisterDriver([FromBody] Driver driver)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             driver.IsAvailable = true;
             driver.CurrentLocation = "Unknown";
+
             _context.Drivers.Add(driver);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetDriver), new { id = driver.DriverId }, driver);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetDriver(int id)
+        public async Task<IActionResult> GetDriver(int id)
         {
-            var driver = _context.Drivers.Find(id);
+            var driver = await _context.Drivers.FindAsync(id);
             if (driver == null)
                 return NotFound();
+
             return Ok(driver);
         }
     }

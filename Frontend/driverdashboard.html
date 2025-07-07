@@ -26,7 +26,29 @@
 
     <div id="driverResponse" class="response-box"></div>
   </div>
+    <script>
+            const token = localStorage.getItem("jwtToken");
 
+            fetch("http://localhost:5199/api/authorization/driver-dashboard", {
+                method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Unauthorized");
+      return res.text();
+    })
+    .then(message => {
+      const welcome = document.createElement("p");
+      welcome.textContent = message;
+      document.body.prepend(welcome);
+    })
+    .catch(error => {
+      alert("Access denied. Please log in again.");
+      window.location.href = "login.html";
+    });
+    </script>
   <script src="driver-api.js"></script>
 </body>
 </html>

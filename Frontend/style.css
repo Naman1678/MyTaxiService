@@ -1,5 +1,4 @@
-﻿/* Reset and base styles */
-* {
+﻿* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -15,7 +14,6 @@ body {
   align-items: center;
 }
 
-/* Container */
 .container {
   background-color: #ffffff;
   padding: 30px 40px;
@@ -26,14 +24,14 @@ body {
   text-align: center;
 }
 
-/* Heading */
-h1 {
+
+h2 {
   font-size: 24px;
   margin-bottom: 25px;
   color: #0d6efd;
 }
 
-/* Form styling */
+
 form {
   display: flex;
   flex-direction: column;
@@ -62,7 +60,6 @@ input:focus {
   outline: none;
 }
 
-/* Buttons */
 button {
   padding: 12px;
   background-color: #0d6efd;

@@ -1,35 +1,76 @@
-document.getElementById("driverForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+const token = localStorage.getItem("jwtToken");
 
-    const driverData = {
-        name: document.getElementById("name").value,
-        vehicleType: document.getElementById("vehicleType").value,
-        licenseNumber: document.getElementById("licenseNumber").value,
-        phoneNumber: document.getElementById("phoneNumber").value
-    };
+fetch("http://localhost:5199/api/authorization/driver-dashboard", {
+    method: "GET",
+    headers: {
+        "Authorization": `Bearer ${token}`
+    }
+})
+.then(res => {
+    if (!res.ok) throw new Error("Unauthorized");
+    return res.text();
+})
+.then(message => {
+    const welcome = document.getElementById("welcome");
+    if (welcome) welcome.innerText = message;
+    loadBookings(); 
+})
+.catch(() => {
+    alert("Access denied. Please log in again.");
+    window.location.href = "login.html";
+});
 
-    const responseBox = document.getElementById("driverResponse");
-    const token = localStorage.getItem("jwtToken");
 
+async function loadBookings() {
     try {
-        const res = await fetch("http://localhost:5199/api/drivers", {
-            method: "POST",
+        const res = await fetch("http://localhost:5199/api/bookings/pending", {
             headers: {
-                "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(driverData)
+            }
         });
 
-        if (!res.ok) {
-            const error = await res.text();
-            throw new Error(error);
+        const bookings = await res.json();
+        const container = document.getElementById("rideRequests");
+        container.innerHTML = "";
+
+        if (bookings.length === 0) {
+            container.innerHTML = "<p>No pending ride requests.</p>";
+            return;
         }
 
-        const result = await res.json();
-        responseBox.innerText = `✅ Registered Successfully! Your Driver ID: ${result.driverId}`;
-    } catch (error) {
-        console.error("Driver registration failed:", error);
-        responseBox.innerText = "❌ Registration failed. Please try again.";
+        bookings.forEach(booking => {
+            const card = document.createElement("div");
+            card.className = "booking-card";
+            card.innerHTML = `
+                <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
+                <p><strong>Client:</strong> User ${booking.userId}</p>
+                <p><strong>From:</strong> ${booking.pickupLocation}</p>
+                <p><strong>To:</strong> ${booking.dropoffLocation}</p>
+                <button onclick="handleBooking(${booking.bookingId}, 'accept')">✅ Accept</button>
+                <button onclick="handleBooking(${booking.bookingId}, 'decline')">❌ Decline</button>
+            `;
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error("Failed to load bookings", err);
     }
-});
+}
+
+async function handleBooking(bookingId, action) {
+    const url = `http://localhost:5199/api/bookings/${bookingId}/${action}`;
+    try {
+        const res = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) throw new Error(await res.text());
+
+        alert(`Booking ${action}ed successfully!`);
+        loadBookings();
+    } catch (err) {
+        alert(`Failed to ${action} booking: ${err.message}`);
+    }
+}

@@ -1,0 +1,45 @@
+.bookings-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: rgb(164, 175, 165);
+
+}
+
+.booking-card {
+  background-color: #dbf1f0;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  transition: transform 0.2s ease-in-out;
+  margin: 10px; 
+  
+}
+
+
+.booking-card:hover {
+  transform: translateY(-3px);
+}
+
+.acceptBtn {
+  background-color: #198754;
+}
+
+.acceptBtn:hover {
+  background-color: #157347;
+}
+
+.declineBtn {
+  background-color: #dc3545;
+}
+
+.declineBtn:hover {
+  background-color: #bb2d3b;
+}

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyTaxiService.Data;
 using MyTaxiService.Models;
@@ -16,6 +17,7 @@ namespace MyTaxiService.Controllers
             _context = context;
         }
 
+     
         [HttpPost]
         public IActionResult CreateBooking([FromBody] Booking booking)
         {
@@ -32,12 +34,11 @@ namespace MyTaxiService.Controllers
             {
                 booking.DriverId = availableDriver.DriverId;
                 booking.Status = "Accepted";
-                availableDriver.IsAvailable = false; 
+                availableDriver.IsAvailable = false;
             }
             else
             {
-                var random = new Random();
-                booking.Status = random.Next(0, 2) == 0 ? "Cancelled" : "Pending";
+                booking.Status = "Pending";
             }
 
             _context.Bookings.Add(booking);
@@ -57,6 +58,56 @@ namespace MyTaxiService.Controllers
                 return NotFound();
 
             return Ok(booking);
+        }
+
+       
+        [HttpGet("pending")]
+        [Authorize(Roles = "Driver")]
+        public IActionResult GetPendingBookings()
+        {
+            var pending = _context.Bookings
+                .Where(b => b.Status == "Pending")
+                .ToList();
+
+            return Ok(pending);
+        }
+
+       
+        [HttpPut("{id}/accept")]
+        [Authorize(Roles = "Driver")]
+        public IActionResult AcceptBooking(int id)
+        {
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == id);
+            if (booking == null || booking.Status != "Pending")
+                return NotFound("Booking not found or not pending.");
+
+            booking.Status = "Accepted";
+
+       
+            if (booking.DriverId.HasValue)
+            {
+                var driver = _context.Drivers.Find(booking.DriverId.Value);
+                if (driver != null)
+                    driver.IsAvailable = false;
+            }
+
+            _context.SaveChanges();
+            return Ok("Booking accepted.");
+        }
+
+       
+        [HttpPut("{id}/decline")]
+        [Authorize(Roles = "Driver")]
+        public IActionResult DeclineBooking(int id)
+        {
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == id);
+            if (booking == null || booking.Status != "Pending")
+                return NotFound("Booking not found or not pending.");
+
+            booking.Status = "Cancelled";
+
+            _context.SaveChanges();
+            return Ok("Booking declined.");
         }
     }
 }

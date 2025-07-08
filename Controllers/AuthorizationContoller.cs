@@ -101,14 +101,14 @@ namespace MyTaxiService.Controllers
         [HttpGet("driver-dashboard")]
         public IActionResult GetDriverDashboard()
         {
-            return Ok("Welcome, driver!");
+            return Ok();
         }
 
         [Authorize(Roles = "Client")]
         [HttpGet("client-dashboard")]
         public IActionResult GetClientDashboard()
         {
-            return Ok("Welcome, client!");
+            return Ok();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace MyTaxiService.Controllers
             {
                 booking.DriverId = availableDriver.DriverId;
                 booking.Status = "Accepted";
-                availableDriver.IsAvailable = false; // Set to unavailable
+                availableDriver.IsAvailable = false; 
             }
             else
             {

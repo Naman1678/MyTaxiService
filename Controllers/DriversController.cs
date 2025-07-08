@@ -15,7 +15,6 @@ namespace MyTaxiService.Controllers
             _context = context;
         }
 
-        // POST: api/drivers
         [HttpPost]
         public async Task<IActionResult> RegisterDriver([FromBody] Driver driver)
         {

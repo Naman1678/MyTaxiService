@@ -39,8 +39,7 @@ namespace MyTaxiService.Controllers
                 return BadRequest("Invalid role");
             }
 
-            // Create JWT Token
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345_superSecureKey!789")); // >256-bit key
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345_superSecureKey!789"));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

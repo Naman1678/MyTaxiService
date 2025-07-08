@@ -76,12 +76,10 @@ button:hover {
   background-color: #084ed1;
 }
 
-/* Response box */
 .response-box {
   margin-top: 20px;
   padding: 12px;
   background-color: #e9f3ff;
-  border-left: 4px solid #0d6efd;
   border-radius: 8px;
   font-size: 14px;
   color: #333;

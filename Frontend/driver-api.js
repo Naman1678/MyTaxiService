@@ -1,4 +1,5 @@
 const token = localStorage.getItem("jwtToken");
+const driverId = localStorage.getItem("driverId");
 
 fetch("http://localhost:5199/api/authorization/driver-dashboard", {
     method: "GET",
@@ -19,7 +20,6 @@ fetch("http://localhost:5199/api/authorization/driver-dashboard", {
     alert("Access denied. Please log in again.");
     window.location.href = "login.html";
 });
-
 
 async function loadBookings() {
     try {
@@ -57,7 +57,14 @@ async function loadBookings() {
 }
 
 async function handleBooking(bookingId, action) {
-    const url = `http://localhost:5199/api/bookings/${bookingId}/${action}`;
+    const driverId = localStorage.getItem("driverId");
+    if (!driverId) {
+        alert("Driver ID not found. Please login again.");
+        return;
+    }
+
+    const url = `http://localhost:5199/api/bookings/${bookingId}/${action}?driverId=${driverId}`;
+
     try {
         const res = await fetch(url, {
             method: "PUT",
@@ -68,8 +75,14 @@ async function handleBooking(bookingId, action) {
 
         if (!res.ok) throw new Error(await res.text());
 
-        alert(`Booking ${action}ed successfully!`);
-        loadBookings();
+                let actionMessage = "";
+        if (action === "accept") actionMessage = "accepted";
+        else if (action === "decline") actionMessage = "declined";
+
+        alert(`Booking ${actionMessage} successfully!`);
+
+
+        loadBookings(); 
     } catch (err) {
         alert(`Failed to ${action} booking: ${err.message}`);
     }

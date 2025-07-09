@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using MyTaxiService.Controllers.Services;
 using MyTaxiService.Data;
 using MyTaxiService.Models;
 
@@ -10,103 +10,73 @@ namespace MyTaxiService.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly BookingService _service;
 
         public BookingsController(AppDbContext context)
         {
-            _context = context;
+            _service = new BookingService(context);
         }
 
-     
+        /* Creates a new ride booking. The default status is set to "Pending".
+        <param name="booking">Booking data sent from the client
+        returns 201 error and created with the new booking info or 400 Bad Request on validation failure
+        */
         [HttpPost]
         public IActionResult CreateBooking([FromBody] Booking booking)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            booking.RequestedTime = DateTime.Now;
-
-            var availableDriver = _context.Drivers
-                .Where(d => d.IsAvailable)
-                .FirstOrDefault();
-
-            if (availableDriver != null)
-            {
-                booking.DriverId = availableDriver.DriverId;
-                booking.Status = "Accepted";
-                availableDriver.IsAvailable = false;
-            }
-            else
-            {
-                booking.Status = "Pending";
-            }
-
-            _context.Bookings.Add(booking);
-            _context.SaveChanges();
-
-            return CreatedAtAction(nameof(GetBooking), new { id = booking.BookingId }, booking);
+            var created = _service.CreateBooking(booking);
+            return CreatedAtAction(nameof(GetBooking), new { id = created.BookingId }, created);
         }
 
+        /* GET: api/bookings/{id}
+        Fetches the specific booking by ID, including driver information
+         <returns>200 OK with booking data or 404 Not Found
+        */
         [HttpGet("{id}")]
         public IActionResult GetBooking(int id)
         {
-            var booking = _context.Bookings
-                .Include(b => b.Driver)
-                .FirstOrDefault(b => b.BookingId == id);
-
-            if (booking == null)
-                return NotFound();
-
+            var booking = _service.GetBookingById(id);
+            if (booking == null) return NotFound();
             return Ok(booking);
         }
 
-       
+        /*
+         Returns all bookings that are still pending. Requires Driver authorization.
+        */
         [HttpGet("pending")]
         [Authorize(Roles = "Driver")]
         public IActionResult GetPendingBookings()
         {
-            var pending = _context.Bookings
-                .Where(b => b.Status == "Pending")
-                .ToList();
-
+            var pending = _service.GetPendingBookings();
             return Ok(pending);
         }
 
-       
+        /*
+         Accepts a pending booking and assigns it to the specified driver. If the driver is unavailabe it marks that driver and returns booking 
+         cannot be accepted.
+        */
+
         [HttpPut("{id}/accept")]
         [Authorize(Roles = "Driver")]
-        public IActionResult AcceptBooking(int id)
+        public IActionResult AcceptBooking(int id, [FromQuery] int driverId)
         {
-            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == id);
-            if (booking == null || booking.Status != "Pending")
-                return NotFound("Booking not found or not pending.");
-
-            booking.Status = "Accepted";
-
-       
-            if (booking.DriverId.HasValue)
-            {
-                var driver = _context.Drivers.Find(booking.DriverId.Value);
-                if (driver != null)
-                    driver.IsAvailable = false;
-            }
-
-            _context.SaveChanges();
+            var updated = _service.AcceptBooking(id, driverId);
+            if (updated == null) return BadRequest("Booking cannot be accepted.");
             return Ok("Booking accepted.");
         }
 
-       
+        /*
+        Declines a pending booking and marks it as "Cancelled". Also, returns a Bad Request if booking cannot be declined.
+        */
+
         [HttpPut("{id}/decline")]
         [Authorize(Roles = "Driver")]
         public IActionResult DeclineBooking(int id)
         {
-            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == id);
-            if (booking == null || booking.Status != "Pending")
-                return NotFound("Booking not found or not pending.");
-
-            booking.Status = "Cancelled";
-
-            _context.SaveChanges();
+            var updated = _service.DeclineBooking(id);
+            if (updated == null) return BadRequest("Booking cannot be declined.");
             return Ok("Booking declined.");
         }
     }

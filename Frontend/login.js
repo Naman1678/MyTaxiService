@@ -16,16 +16,17 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
         const result = await response.json();
 
-        if (response.ok) {
-            localStorage.setItem("jwtToken", result.token);
-            localStorage.setItem("userRole", result.role);
+       if (response.ok) {
+    localStorage.setItem("jwtToken", result.token);
+    localStorage.setItem("userRole", result.role);
 
-            if (result.role === "Driver") {
-                window.location.href = "driverdashboard.html";
-            } else if (result.role === "Client") {
-                window.location.href = "booking.html";
-            }
-        } else {
+    if (result.role === "Driver") {
+        localStorage.setItem("driverId", result.driverId);
+        window.location.href = "driverdashboard.html";
+    } else if (result.role === "Client") {
+        window.location.href = "booking.html";
+    }
+     } else {
             document.getElementById("loginStatus").innerText = result;
         }
     } catch (err) {

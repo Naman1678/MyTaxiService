@@ -39,10 +39,10 @@ namespace MyTaxiService.Controllers
                 if (driver == null)
                     return Unauthorized("Invalid Driver credentials");
 
-                driver.IsAvailable = true; 
+                driver.IsAvailable = true;
                 driverId = driver.DriverId;
 
-                _context.SaveChanges(); 
+                _context.SaveChanges();
             }
             else
             {

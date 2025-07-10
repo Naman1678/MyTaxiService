@@ -20,7 +20,7 @@ namespace MyTaxiService.Controllers.Services
             return booking;
         }
 
-        public Booking ? AcceptBooking(int bookingId, int driverId)
+        public Booking? AcceptBooking(int bookingId, int driverId)
         {
             var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingId && b.Status == "Pending");
             if (booking == null) return null;
@@ -36,7 +36,7 @@ namespace MyTaxiService.Controllers.Services
             return booking;
         }
 
-        public Booking ? DeclineBooking(int bookingId)
+        public Booking? DeclineBooking(int bookingId)
         {
             var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingId && b.Status == "Pending");
             if (booking == null) return null;

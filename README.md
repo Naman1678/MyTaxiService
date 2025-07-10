@@ -13,8 +13,7 @@ A real-time taxi booking service built with C# (.NET Core), HTML/CSS/JS, and SQL
 - C#, .NET Core
 - SQL Server, Entity Framework
 - HTML, CSS, JavaScript
-- Docker (for containerization)
-
+- JWT token authorization
 
 ## HOW TO USE
 - Clone the repo to your device.

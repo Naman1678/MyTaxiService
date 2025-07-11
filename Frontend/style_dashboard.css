@@ -3,7 +3,56 @@ body {
   background-color: #f0f2f5;
   margin: 0;
   padding: 20px;
+
+  /* Decorative accent setup */
+  position: relative;
+  overflow: hidden;
 }
+
+/* Top-left decorative circle */
+body::before {
+  content: "";
+  position: absolute;
+  width: 36rem;
+  height: 36rem;
+  background: #e6e6ea;
+  border-radius: 50%;
+  top: -18rem;
+  left: -18rem;
+  z-index: -1;
+}
+
+/* Bottom-right decorative circle */
+body::after {
+  content: "";
+  position: absolute;
+  width: 36rem;
+  height: 36rem;
+  background: #e6e6ea;
+  border-radius: 50%;
+  bottom: -18rem;
+  right: -18rem;
+  z-index: -1;
+}
+
+@media (max-width: 768px) {
+  body::before,
+  body::after {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  body::before {
+    top: -12rem;
+    left: -12rem;
+  }
+
+  body::after {
+    bottom: -12rem;
+    right: -12rem;
+  }
+}
+
 
 .container {
   max-width: 900px;

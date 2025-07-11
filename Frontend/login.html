@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - MyTaxiService</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h2>🔐 Login</h2>
-        <form id="loginForm">
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Enter your username" required />
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" required />
-            <label for="role">Select Role</label>
-            <select id="role" required>
-                <option value="">Choose your role</option>
-                <option value="Client">Client</option>
-                <option value="Driver">Driver</option>
-            </select>
-            <button type="submit">Login</button>
-        </form>
-        <div id="loginStatus" class="response-box"></div>
-        <div class="small-links">
-            Don’t have an account?<br />
-            <a href="register-client.html">Register as Client</a> |
-            <a href="register-driver.html">Register as Driver</a>
-        </div>
+  <div class="container">
+    <h2>Login to MyTaxiService</h2>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" required />
+
+      <label for="role">Select Role</label>
+      <select id="role" required>
+        <option value="">Choose your role</option>
+        <option value="Client">Client</option>
+        <option value="Driver">Driver</option>
+      </select>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div id="loginStatus" class="response-box"></div>
+
+    <div style="margin-top: 20px; font-size: 14px; text-align:center;">
+      Don’t have an account? <br />
+      <a href="register-client.html">Register as Client</a> |
+      <a href="register-driver.html">Register as Driver</a>
     </div>
-    <script src="login.js"></script>
+  </div>
+
+  <script src="login.js"></script>
 </body>
 </html>

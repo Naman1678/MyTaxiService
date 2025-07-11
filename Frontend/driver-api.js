@@ -3,9 +3,7 @@ const driverId = localStorage.getItem("driverId");
 
 fetch("http://localhost:5199/api/authorization/driver-dashboard", {
     method: "GET",
-    headers: {
-        "Authorization": `Bearer ${token}`
-    }
+    headers: { "Authorization": `Bearer ${token}` }
 })
 .then(res => {
     if (!res.ok) throw new Error("Unauthorized");
@@ -24,9 +22,7 @@ fetch("http://localhost:5199/api/authorization/driver-dashboard", {
 async function loadBookings() {
     try {
         const res = await fetch("http://localhost:5199/api/bookings/pending", {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
 
         const bookings = await res.json();
@@ -46,8 +42,8 @@ async function loadBookings() {
                 <p><strong>Client:</strong> User ${booking.userId}</p>
                 <p><strong>From:</strong> ${booking.pickupLocation}</p>
                 <p><strong>To:</strong> ${booking.dropoffLocation}</p>
-                <button onclick="handleBooking(${booking.bookingId}, 'accept')">✅ Accept</button>
-                <button onclick="handleBooking(${booking.bookingId}, 'decline')">❌ Decline</button>
+                <button class="acceptBtn" onclick="handleBooking(${booking.bookingId}, 'accept')">✅ Accept</button>
+                <button class="declineBtn" onclick="handleBooking(${booking.bookingId}, 'decline')">❌ Decline</button>
             `;
             container.appendChild(card);
         });
@@ -57,7 +53,6 @@ async function loadBookings() {
 }
 
 async function handleBooking(bookingId, action) {
-    const driverId = localStorage.getItem("driverId");
     if (!driverId) {
         alert("Driver ID not found. Please login again.");
         return;
@@ -68,20 +63,13 @@ async function handleBooking(bookingId, action) {
     try {
         const res = await fetch(url, {
             method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
 
         if (!res.ok) throw new Error(await res.text());
 
-                let actionMessage = "";
-        if (action === "accept") actionMessage = "accepted";
-        else if (action === "decline") actionMessage = "declined";
-
-        alert(`Booking ${actionMessage} successfully!`);
-
-
+        const msg = action === "accept" ? "accepted" : "declined";
+        alert(`Booking ${msg} successfully!`);
         loadBookings(); 
     } catch (err) {
         alert(`Failed to ${action} booking: ${err.message}`);

@@ -15,8 +15,7 @@ namespace MyTaxiService.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Ride> Rides { get; set; }
-        public DbSet<CancellationLog> CancellationLogs { get; set; }
-
+   
 
     }
 

@@ -17,11 +17,11 @@ namespace MyTaxiService.Controllers
             _service = new BookingService(context);
         }
 
-        /* Creates a new ride booking. The default status is set to "Pending".
-        <param name="booking">Booking data sent from the client
-        returns 201 error and created with the new booking info or 400 Bad Request on validation failure
-        */
+        /// <summary>
+        /// Creates a new ride booking. The default status is set to "Pending".
+        /// </summary>
         [HttpPost]
+        [Authorize(Roles = "Client")]
         public IActionResult CreateBooking([FromBody] Booking booking)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -30,10 +30,9 @@ namespace MyTaxiService.Controllers
             return CreatedAtAction(nameof(GetBooking), new { id = created.BookingId }, created);
         }
 
-        /* GET: api/bookings/{id}
-        Fetches the specific booking by ID, including driver information
-         <returns>200 OK with booking data or 404 Not Found
-        */
+        /// <summary>
+        /// Fetch a specific booking by its ID.
+        /// </summary>
         [HttpGet("{id}")]
         public IActionResult GetBooking(int id)
         {
@@ -42,9 +41,9 @@ namespace MyTaxiService.Controllers
             return Ok(booking);
         }
 
-        /*
-         Returns all bookings that are still pending. Requires Driver authorization.
-        */
+        /// <summary>
+        /// Returns all bookings that are still pending.
+        /// </summary>
         [HttpGet("pending")]
         [Authorize(Roles = "Driver")]
         public IActionResult GetPendingBookings()
@@ -53,11 +52,9 @@ namespace MyTaxiService.Controllers
             return Ok(pending);
         }
 
-        /*
-         Accepts a pending booking and assigns it to the specified driver. If the driver is unavailabe it marks that driver and returns booking 
-         cannot be accepted.
-        */
-
+        /// <summary>
+        /// Accepts a pending booking and assigns it to a driver.
+        /// </summary>
         [HttpPut("{id}/accept")]
         [Authorize(Roles = "Driver")]
         public IActionResult AcceptBooking(int id, [FromQuery] int driverId)
@@ -67,10 +64,9 @@ namespace MyTaxiService.Controllers
             return Ok("Booking accepted.");
         }
 
-        /*
-        Declines a pending booking and marks it as "Cancelled". Also, returns a Bad Request if booking cannot be declined.
-        */
-
+        /// <summary>
+        /// Declines a pending booking and marks it as "Cancelled".
+        /// </summary>
         [HttpPut("{id}/decline")]
         [Authorize(Roles = "Driver")]
         public IActionResult DeclineBooking(int id)
@@ -78,6 +74,27 @@ namespace MyTaxiService.Controllers
             var updated = _service.DeclineBooking(id);
             if (updated == null) return BadRequest("Booking cannot be declined.");
             return Ok("Booking declined.");
+        }
+
+        /// <summary>
+        /// Returns the most recent booking for a client by user ID.
+        /// </summary>
+        [HttpGet("client-latest")]
+        [Authorize(Roles = "Client")]
+        public IActionResult GetLatestBooking([FromQuery] int userId)
+        {
+            var booking = _service.GetLatestBookingByUser(userId);
+            if (booking == null)
+                return NotFound("No booking found.");
+
+            return Ok(new
+            {
+                booking.BookingId,
+                booking.Status,
+                booking.PickupLocation,
+                booking.DropoffLocation,
+                booking.DriverId
+            });
         }
     }
 }

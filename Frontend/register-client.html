@@ -1,62 +1,59 @@
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Register Client</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <title>Register Client</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h2>Register as Client</h2>
-        <form id="clientRegisterForm">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="Full Name" required>
+  <div class="container">
+    <h2>🧍 Register as Client</h2>
+    <form id="clientRegisterForm">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" placeholder="Full Name" required>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Add your emailId" required>
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Add your email ID" required>
 
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Add a unique username" required>
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Add a unique username" required>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Add a alpha-numeric password" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Add an alpha-numeric password" required>
 
-            <button type="submit">Register</button>
-        </form>
+      <button type="submit">Register</button>
+    </form>
 
-        <div id="response" class="response-box"></div>
-    </div>
+    <div id="response" class="response-box"></div>
+  </div>
 
-    <script>
-        document.getElementById("clientRegisterForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const data = {
-                fullName: document.getElementById("fullName").value,
-                email: document.getElementById("email").value,
-                username: document.getElementById("username").value,
-                password: document.getElementById("password").value
-            };
+  <script>
+    document.getElementById("clientRegisterForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const data = {
+        fullName: document.getElementById("fullName").value,
+        email: document.getElementById("email").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      };
 
-            try {
-                const res = await fetch("http://localhost:5199/api/authorization/register-client", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await res.text();
-                document.getElementById("response").innerText = result;
-
-                if (res.ok) {
-                    setTimeout(() => {
-                        window.location.href = "login.html";
-                    }, 1000);
-                }
-            } catch (err) {
-                document.getElementById("response").innerText = "Registration failed.";
-            }
+      try {
+        const res = await fetch("http://localhost:5199/api/authorization/register-client", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
         });
-    </script>
+
+        const result = await res.text();
+        document.getElementById("response").innerText = result;
+
+        if (res.ok) {
+          setTimeout(() => window.location.href = "login.html", 1000);
+        }
+      } catch (err) {
+        document.getElementById("response").innerText = "❌ Registration failed.";
+      }
+    });
+  </script>
 </body>
 </html>

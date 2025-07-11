@@ -4,9 +4,14 @@ using MyTaxiService.Models;
 
 namespace MyTaxiService.Controllers.Services
 {
-    public class BookingService(AppDbContext context)
+    public class BookingService
     {
-        private readonly AppDbContext _context = context;
+        private readonly AppDbContext _context;
+
+        public BookingService(AppDbContext context)
+        {
+            _context = context;
+        }
 
         public Booking CreateBooking(Booking booking)
         {
@@ -46,17 +51,27 @@ namespace MyTaxiService.Controllers.Services
             return booking;
         }
 
-
         public List<Booking> GetPendingBookings()
         {
-            return [.. _context.Bookings.Where(b => b.Status == "Pending")];
+            return _context.Bookings
+                .Where(b => b.Status == "Pending")
+                .ToList();
         }
 
-        public Booking GetBookingById(int id)
+        public Booking? GetBookingById(int id)
         {
             return _context.Bookings
                 .Include(b => b.Driver)
                 .FirstOrDefault(b => b.BookingId == id);
         }
+
+        public Booking? GetLatestBookingByUser(int userId)
+        {
+            return _context.Bookings
+                .Where(b => b.UserId == userId)
+                .OrderByDescending(b => b.RequestedTime)
+                .FirstOrDefault();
+        }
     }
 }
+ 

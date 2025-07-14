@@ -14,6 +14,7 @@ A real-time taxi booking service built with C# (.NET Core), HTML/CSS/JS, and SQL
 - SQL Server, Entity Framework
 - HTML, CSS, JavaScript
 - JWT token authorization
+- SignalR dotnet nutget package library
 
 ## HOW TO USE
 - Clone the repo to your device.

@@ -69,11 +69,8 @@ h1, h2 {
   margin-bottom: 20px;
 }
 
-.bookings-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+.bookings-wrapper{
+  display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-top:20px;
 }
 
 .booking-card {

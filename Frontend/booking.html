@@ -2,26 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Taxi Booking</title>
+  <title>Book a Ride</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- SignalR client (NO integrity or crossorigin attributes!) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>🚖 Book Your Ride</h1>
+    <h1>🚖 Book your ride</h1>
+
     <form id="bookingForm">
-      <label for="userId">User ID</label>
-      <input type="number" id="userId" placeholder="Enter User ID" required />
+      <label>User&nbsp;ID</label>
+      <input type="number" id="userId" placeholder="123" required />
 
-      <label for="pickupLocation">Pickup Location</label>
-      <input type="text" id="pickupLocation" placeholder="Enter pickup location" required />
+      <label>Pickup</label>
+      <input type="text" id="pickupLocation" placeholder="Enter pickup" required />
 
-      <label for="dropoffLocation">Dropoff Location</label>
-      <input type="text" id="dropoffLocation" placeholder="Enter dropoff location" required />
+      <label>Drop‑off</label>
+      <input type="text" id="dropoffLocation" placeholder="Enter destination" required />
 
-      <button type="submit">Book Now</button>
+      <button type="submit">Book&nbsp;Now</button>
     </form>
 
-    <div id="response" class="response-box"></div>
+    <div id="response"        class="response-box"></div>
     <div id="statusContainer" class="status-box"></div>
   </div>
 

@@ -58,7 +58,7 @@ builder.Services.AddScoped<BookingService>();
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowSpecificOrigin", p =>
-        p.WithOrigins("http://127.0.0.1:5500") // This *must* be the exact origin of your client-side application
+        p.WithOrigins("http://127.0.0.1:5500") // This must be the origin URL for whatever port or URL you are using to host this application.
          .AllowAnyHeader()
          .AllowAnyMethod()
          .AllowCredentials());                // This is essential when sending credentials (like your JWT token)

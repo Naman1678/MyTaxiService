@@ -15,6 +15,9 @@
       <label for="vehicleType">Vehicle Type</label>
       <input type="text" id="vehicleType" placeholder="Sedan/SUV etc." required />
 
+      <label for="carNumber">Car Number</label>
+      <input type="text" id="carNumber" placeholder="RJ14-AB-1234" required />
+
       <label for="licenseNumber">License Number</label>
       <input type="text" id="licenseNumber" placeholder="Valid License Number" required />
 
@@ -40,6 +43,7 @@
       const driver = {
         name: document.getElementById("name").value,
         vehicleType: document.getElementById("vehicleType").value,
+        carNumber: document.getElementById("carNumber").value,
         licenseNumber: document.getElementById("licenseNumber").value,
         phoneNumber: document.getElementById("phoneNumber").value,
         username: document.getElementById("username").value,

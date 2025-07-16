@@ -16,18 +16,14 @@ namespace MyTaxiService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterDriver([FromBody] Driver driver)
+        public IActionResult RegisterDriver([FromBody] Driver driver)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            driver.IsAvailable = true;
-            driver.CurrentLocation = "Unknown";
-
             _context.Drivers.Add(driver);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetDriver), new { id = driver.DriverId }, driver);
+            _context.SaveChanges();
+            return Ok(driver);
         }
 
         [HttpGet("{id}")]

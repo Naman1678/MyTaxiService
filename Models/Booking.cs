@@ -33,22 +33,27 @@ namespace MyTaxiService.Models
          
     }
 
+    [AttributeUsage(AttributeTargets.All)]
     internal class RequestedTimeAttribute : Attribute
     {
     }
 
+    [AttributeUsage(AttributeTargets.All)]
     internal class DropoffLocationAttribute : Attribute
     {
     }
 
+    [AttributeUsage(AttributeTargets.All)]
     internal class PickupLocationAttribute : Attribute
     {
     }
 
+    [AttributeUsage(AttributeTargets.All)]
     internal class UserIdAttribute : Attribute
     {
     }
 
+    [AttributeUsage(AttributeTargets.All)]
     internal class BookingIdAttribute : Attribute
     {
     }

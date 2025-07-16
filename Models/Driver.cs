@@ -17,6 +17,9 @@ namespace MyTaxiService.Models
         public string VehicleType { get; set; } = string.Empty;
 
         [Required]
+        public string CarNumber { get; set; } = string.Empty;
+
+        [Required]
         public string LicenseNumber { get; set; } = string.Empty;
 
         public bool IsAvailable { get; set; } = true;
@@ -29,6 +32,6 @@ namespace MyTaxiService.Models
         [Required]
         public string Password { get; set; } = string.Empty;
 
-        public ICollection<Booking>? Bookings { get; set; } 
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

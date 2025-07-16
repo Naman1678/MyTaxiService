@@ -24,16 +24,28 @@ namespace MyTaxiService.Services
         {
             var booking = _context.Bookings.FirstOrDefault(
                               b => b.BookingId == bookingId && b.Status == "Pending");
-            var driver = _context.Drivers.Find(driverId);
+            var driver = _context.Drivers.FirstOrDefault(d => d.DriverId == driverId);
+
             if (booking == null || driver == null || !driver.IsAvailable) return null;
 
             booking.Status = "Accepted";
             booking.DriverId = driverId;
+
             driver.IsAvailable = false;
             _context.SaveChanges();
 
-            // Send update to clients
-            await _hub.Clients.All.SendAsync("RideUpdated", booking);
+            var bookingDto = new
+            {
+                booking.BookingId,
+                booking.UserId,
+                booking.PickupLocation,
+                booking.DropoffLocation,
+                booking.Status,
+                driver.DriverId,
+                driver.CarNumber
+            };
+
+            await _hub.Clients.All.SendAsync("RideUpdated", bookingDto);
             return booking;
         }
 
@@ -46,7 +58,6 @@ namespace MyTaxiService.Services
             booking.Status = "Cancelled";
             _context.SaveChanges();
 
-            // Notify all clients about the declined ride
             await _hub.Clients.All.SendAsync("RideUpdated", booking);
             return booking;
         }

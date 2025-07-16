@@ -63,8 +63,10 @@ function renderStatus(b) {
     <p><strong>From:</strong> ${b.pickupLocation}</p>
     <p><strong>To:</strong> ${b.dropoffLocation}</p>
     ${b.driverId ? `<p><strong>Driver ID:</strong> ${b.driverId}</p>` : ""}
+    ${b.carNumber ? `<p><strong>Car Number:</strong> ${b.carNumber}</p>` : ""}
   `;
 }
+
 
 /* ----------- Load status if userId in URL ----------- */
 window.addEventListener("DOMContentLoaded", () => {

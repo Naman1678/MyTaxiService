@@ -25,7 +25,7 @@ builder.Services.AddAuthentication(o =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = "http://localhost:5199",
-      
+
         ValidAudience = "http://127.0.0.1:5500",           // This must match the client's origin (where your booking.html is served from)
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345_superSecureKey!789"))
     };

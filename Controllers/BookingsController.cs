@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyTaxiService.Controllers.Services;
 using MyTaxiService.Models;
+using MyTaxiService.Services;
 
 namespace MyTaxiService.Controllers
 {

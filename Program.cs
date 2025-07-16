@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using MyTaxiService.Controllers.Services;
+using MyTaxiService.Services;
 using MyTaxiService.Data;
 using MyTaxiService.Hubs;
 using System.Text;

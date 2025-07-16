@@ -4,7 +4,7 @@ using MyTaxiService.Data;
 using MyTaxiService.Hubs;
 using MyTaxiService.Models;
 
-namespace MyTaxiService.Controllers.Services
+namespace MyTaxiService.Services
 {
     public class BookingService(AppDbContext ctx, IHubContext<RideHub> hub)
     {

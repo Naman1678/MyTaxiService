@@ -7,6 +7,5 @@
 
         public required string Role { get; set; }
 
-
     }
 }

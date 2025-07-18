@@ -11,7 +11,7 @@ namespace MyTaxiService.Models
 
         [BookingId]
         public int BookingId { get; set; }
-        
+
         [UserId]
 
         public int UserId { get; set; }
@@ -30,7 +30,7 @@ namespace MyTaxiService.Models
         public string? CarType { get; set; }
         public string? Status { get; set; }
         public int? DriverId { get; set; }
-         
+
     }
 
     [AttributeUsage(AttributeTargets.All)]

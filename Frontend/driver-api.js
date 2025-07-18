@@ -11,7 +11,8 @@ fetch("http://localhost:5199/api/authorization/driver-dashboard", { headers: hdr
   })
   .then(message => {
     document.getElementById("welcome").textContent = message;
-    loadBookings();  // Load bookings after welcome message
+  // Load bookings after welcome message
+    loadBookings();  
   })
   .catch(() => {
     alert("Access denied. Please log in again.");

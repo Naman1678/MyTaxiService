@@ -4,7 +4,6 @@ namespace MyTaxiService.Models
 {
     public class Driver
     {
-        [Key]
         public int DriverId { get; set; }
 
         [Required, StringLength(100)]

@@ -5,84 +5,128 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f7fa;
-  color: #333;
-  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Times New Roman, Times, serif, sans-serif;
+  background-color: hsla(0, 6%, 71%, 0.384);  
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Top-left circle */
+body::before {
+  content: "";
+  position: absolute;
+  width: 36rem;
+  height: 36rem;
+  background: #f1f1f3;
+  border-radius: 50%;
+  top: -18rem;
+  left: -18rem;
+  z-index: -1;
+}
+
+/* Bottom-right circle */
+body::after {
+  content: "";
+  position: absolute;
+  width: 36rem;
+  height: 36rem;
+  background: #f1f1f3;
+  border-radius: 50%;
+  bottom: -18rem;
+  right: -18rem;
+  z-index: -1;
+}
+
+@media (max-width: 768px) {
+  body::before,
+  body::after {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  body::before {
+    top: -12rem;
+    left: -12rem;
+  }
+
+  body::after {
+    bottom: -12rem;
+    right: -12rem;
+  }
 }
 
 .container {
-  background-color: #ffffff;
-  padding: 30px 40px;
+  background-color: hsl(0, 5%, 71%);  
+  padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  max-width: 420px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
   width: 100%;
-  text-align: center;
+  max-width: 420px;
 }
 
-
+h1,
 h2 {
-  font-size: 24px;
-  margin-bottom: 25px;
-  color: #0d6efd;
+  text-align: center;
+  color: #2e2e2e;
+  margin-bottom: 24px;
 }
-
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 
 label {
-  text-align: left;
   font-weight: 600;
   font-size: 14px;
+  color: #555;
 }
 
 input[type="text"],
 input[type="number"],
+input[type="email"],
 input[type="password"],
+input[type="tel"],
 select {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
+  padding: 12px;
   border-radius: 8px;
-  font-size: 15px;
-  transition: border-color 0.3s;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+  font-size: 14px;
 }
 
-input:focus {
-  border-color: #0d6efd;
+input:focus,
+select:focus {
   outline: none;
+  border-color: #1e90ff;
 }
 
 button {
-  padding: 12px;
-  background-color: #0d6efd;
-  border: none;
+  background-color: #1e90ff;
   color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
   font-weight: bold;
   font-size: 16px;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #084ed1;
+  background-color: #147ad6;
 }
 
-.response-box {
-  margin-top: 20px;
+.status-box {
+  background-color: #f0f6ff;
   padding: 12px;
-  background-color: #e9f3ff;
+  margin-top: 20px;
   border-radius: 8px;
   font-size: 14px;
   color: #333;
-  white-space: pre-wrap;
-  text-align: left;
 }

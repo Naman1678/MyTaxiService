@@ -2,53 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Driver Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Driver | Dashboard</title>
+  <link rel="stylesheet" href="style_dashboard.css" />
 </head>
 <body>
   <div class="container">
-    <h1>🧑‍✈️ Driver Registration</h1>
-    <form id="driverForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" placeholder="Enter your name" required />
+    <h1 id="welcome">Welcome, Driver</h1>
+    <h2>Pending ride requests</h2>
 
-      <label for="vehicleType">Vehicle Type</label>
-      <input type="text" id="vehicleType" placeholder="e.g., Sedan" required />
-
-      <label for="licenseNumber">License Number</label>
-      <input type="text" id="licenseNumber" placeholder="Enter license number" required />
-
-      <label for="phoneNumber">Phone Number</label>
-      <input type="tel" id="phoneNumber" placeholder="e.g., 9876543210" required />
-
-      <button type="submit">Register</button>
-    </form>
-
-    <div id="driverResponse" class="response-box"></div>
+    <div id="rideRequests" class="bookings-wrapper"></div>
   </div>
-    <script>
-            const token = localStorage.getItem("jwtToken");
 
-            fetch("http://localhost:5199/api/authorization/driver-dashboard", {
-                method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      if (!res.ok) throw new Error("Unauthorized");
-      return res.text();
-    })
-    .then(message => {
-      const welcome = document.createElement("p");
-      welcome.textContent = message;
-      document.body.prepend(welcome);
-    })
-    .catch(error => {
-      alert("Access denied. Please log in again.");
-      window.location.href = "login.html";
-    });
-    </script>
   <script src="driver-api.js"></script>
 </body>
 </html>

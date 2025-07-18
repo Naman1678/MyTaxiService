@@ -7,28 +7,31 @@ namespace MyTaxiService.Models
         [Key]
         public int DriverId { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public required string Name { get; set; }
+        [Required, StringLength(100)]
+        public string Name { get; set; } = string.Empty;
+
+        [Required, Phone]
+        public string PhoneNumber { get; set; } = string.Empty;
 
         [Required]
-        [Phone]
-        public required string PhoneNumber { get; set; }
+        public string VehicleType { get; set; } = string.Empty;
 
         [Required]
-        public required string VehicleType { get; set; }
+        public string CarNumber { get; set; } = string.Empty;
 
         [Required]
-        public required string LicenseNumber { get; set; }
+        public string LicenseNumber { get; set; } = string.Empty;
 
         public bool IsAvailable { get; set; } = true;
         public string? CurrentLocation { get; set; }
         public double Rating { get; set; } = 5.0;
 
         [Required]
-        public required string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
         [Required]
-        public required string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
+
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

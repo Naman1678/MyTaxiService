@@ -5,22 +5,20 @@ namespace MyTaxiService.Models
     public class User
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }  
 
-        [Required]
-        [StringLength(100)]
-        public required string FullName { get; set; }
+        [Required, StringLength(100)]
+        public string FullName { get; set; } = string.Empty;
 
-        [Required]
-        [EmailAddress]
-        public required string Email { get; set; }
+        [Required, EmailAddress]
+        public string Email { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(50, MinimumLength = 6, ErrorMessage = "Password should be at least 6 characters.")]
-        public required string Password { get; set; }
+        [Required, StringLength(50, MinimumLength = 6)]
+        public string Password { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(50)]
-        public required string Username { get; set; }
+        [Required, StringLength(50)]
+        public string Username { get; set; } = string.Empty;
+
+        public ICollection<Booking>? Bookings { get; set; }  
     }
 }

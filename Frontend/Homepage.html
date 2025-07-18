@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MyTaxiService - Your Ride, Simplified.</title>
+    <link rel="stylesheet" href="homepage.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!--This line imports the CSS file for the AOS (Animate On Scroll) library. While the AOS JavaScript handles when animations occur, this CSS file contains the actual CSS styles that define 
+    the initial state of the elements before they animate and the final state after they animate. The CSS file provides those definitions. Without it, even if the JavaScript runs, the visual
+     effect of the animations won't be visible.-->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">MyTaxiService</div>
+        <nav>
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
+                <h1>Your Journey, Our Priority.</h1>
+                <p class="tagline">Experience seamless, safe, and swift rides, anytime, anywhere.</p>
+                <a href="login.html" class="get-started">Get Started</a>
+            </div>
+            <div class="hero-image" data-aos="fade-left" data-aos-duration="1000">
+                <img src="assests.jpg" alt="Taxi waiting illustration" class="responsive-img"/>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <h2 data-aos="fade-up">Why Choose MyTaxiService?</h2>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="Efficient.jpg" alt="Speed icon" class="feature-icon"/>
+                    <h3>Swift & Efficient</h3>
+                    <p>Quick pickups and optimized routes get you there faster.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="Safety.jpg" alt="Safety icon" class="feature-icon"/> <h3>Safety First</h3>
+                    <p>Verified drivers and 24/7 support ensure peace of mind.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300"> <img src="Realtime.jpg" alt="Tracking icon" class="feature-icon"/>
+                    <h3>Real-time Tracking</h3>
+                    <p>Know exactly where your ride is, from pickup to drop-off.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works-section">
+            <h2 data-aos="fade-up">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card" data-aos="fade-right" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1585433013603-511862cae0a9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fEJvb2slMjB5b3VyJTIwcmlkZSUyMHViZXJ8ZW58MHx8MHx8fDA%3D" 
+                    alt="Book a ride" class="step-img"/>
+                    <h3>1. Book Your Ride</h3>
+                    <p>Enter your pickup and destination details easily.</p>
+                </div>
+                <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://plus.unsplash.com/premium_photo-1712496470843-08ee94b2129c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Q29ubmVjdCUyMHdpdGglMjBhJTIwZHJpdmVyfGVufDB8fDB8fHww"
+                     alt="Connect with driver" class="step-img"/>
+                    <h3>2. Connect with a Driver</h3>
+                    <p>Get matched with a nearby, available driver instantly.</p>
+                </div>
+                <div class="step-card" data-aos="fade-left" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1657486233953-fa694c2d1a46?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fEVuam95JTIweW91ciUyMGpvdXJuZXklMjBjYWJ8ZW58MHx8MHx8fDA%3D"
+                     alt="Enjoy your ride" class="step-img"/>
+                    <h3>3. Enjoy Your Journey</h3>
+                    <p>Relax and ride to your destination comfortably.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" data-aos="zoom-in" data-aos-duration="1000">
+            <h2>Ready to Ride?</h2>
+            <p>Download our app or log in to get started on your next journey.</p>
+            <a href="login.html" class="get-started cta-button">Book Your First Ride</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 MyTaxiService. All rights reserved.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>    
+    <!--
+    The above line imports the AOS (Animate On Scroll) library's JavaScript file.This is the core library code. 
+    Without it, the AOS.init() function (which initializes the animations) would not exist.
+    -->
+    <script>
+        <!-- This script block initializes the AOS library and configures its global settings.-->
+        AOS.init({        
+            once: true, 
+            duration: 800 
+        });
+    </script>
+</body>
+</html>

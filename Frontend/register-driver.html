@@ -7,14 +7,28 @@
 </head>
 <body>
   <div class="container">
-    <h1>🧑‍✈️ Driver Registration</h1>
+    <h2>🚗 Register as Driver</h2>
     <form id="driverForm">
+      <label for="fullName">Full Name</label>
       <input type="text" id="name" placeholder="Full Name" required />
-      <input type="text" id="vehicleType" placeholder="Vehicle Type" required />
-      <input type="text" id="licenseNumber" placeholder="License Number" required />
-      <input type="tel" id="phoneNumber" placeholder="Phone Number" required />
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
+
+      <label for="vehicleType">Vehicle Type</label>
+      <input type="text" id="vehicleType" placeholder="Sedan/SUV etc." required />
+
+      <label for="carNumber">Car Number</label>
+      <input type="text" id="carNumber" placeholder="RJ14-AB-1234" required />
+
+      <label for="licenseNumber">License Number</label>
+      <input type="text" id="licenseNumber" placeholder="Valid License Number" required />
+
+      <label for="phoneNumber">Phone Number</label>
+      <input type="tel" id="phoneNumber" placeholder="Your Phone Number" required />
+
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Create a username" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Add a strong password" required />
 
       <button type="submit">Register</button>
     </form>
@@ -29,6 +43,7 @@
       const driver = {
         name: document.getElementById("name").value,
         vehicleType: document.getElementById("vehicleType").value,
+        carNumber: document.getElementById("carNumber").value,
         licenseNumber: document.getElementById("licenseNumber").value,
         phoneNumber: document.getElementById("phoneNumber").value,
         username: document.getElementById("username").value,
@@ -40,9 +55,7 @@
       try {
         const res = await fetch("http://localhost:5199/api/drivers", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(driver)
         });
 

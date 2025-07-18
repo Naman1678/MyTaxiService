@@ -1,58 +1,70 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MyTaxiService.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyTaxiService.Models;
+using MyTaxiService.Services;
 
 namespace MyTaxiService.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class BookingsController : ControllerBase
+    [Route("api/[controller]")]
+    public class BookingsController(BookingService bookingService) : ControllerBase
     {
-        private readonly AppDbContext _context;
-
-        public BookingsController(AppDbContext context)
-        {
-            _context = context;
-        }
+        private readonly BookingService _bookingService = bookingService;
 
         [HttpPost]
+        [Authorize]
         public IActionResult CreateBooking([FromBody] Booking booking)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var createdBooking = _bookingService.CreateBooking(booking);
+            return CreatedAtAction(nameof(GetBookingById), new { id = createdBooking.BookingId }, createdBooking);
+        }
 
-            booking.RequestedTime = DateTime.Now;
+        [HttpPut("{id}/accept")]
+        [Authorize]
+        public async Task<IActionResult> AcceptBooking(int id, [FromQuery] int driverId)
+        {
+            var result = await _bookingService.AcceptBooking(id, driverId);
+            if (result == null)
+                return BadRequest("Booking not found or driver unavailable.");
 
-            var availableDriver = _context.Drivers
-                .Where(d => d.IsAvailable)
-                .FirstOrDefault();
+            return Ok(result);
+        }
 
-            if (availableDriver != null)
-            {
-                booking.DriverId = availableDriver.DriverId;
-                booking.Status = "Accepted";
-                availableDriver.IsAvailable = false; 
-            }
-            else
-            {
-                var random = new Random();
-                booking.Status = random.Next(0, 2) == 0 ? "Cancelled" : "Pending";
-            }
+        [HttpPut("{id}/decline")]
+        [Authorize]
+        public async Task<IActionResult> DeclineBooking(int id)
+        {
+            var result = await _bookingService.DeclineBooking(id);
+            if (result == null)
+                return BadRequest("Booking not found or already processed.");
 
-            _context.Bookings.Add(booking);
-            _context.SaveChanges();
+            return Ok(result);
+        }
 
-            return CreatedAtAction(nameof(GetBooking), new { id = booking.BookingId }, booking);
+        [HttpGet("pending")]
+        [Authorize]
+        public IActionResult GetPendingBookings()
+        {
+            var bookings = _bookingService.GetPendingBookings();
+            return Ok(bookings);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetBooking(int id)
+        [Authorize]
+        public IActionResult GetBookingById(int id)
         {
-            var booking = _context.Bookings
-                .Include(b => b.Driver)
-                .FirstOrDefault(b => b.BookingId == id);
+            var booking = _bookingService.GetBookingById(id);
+            if (booking == null)
+                return NotFound();
 
+            return Ok(booking);
+        }
+
+        [HttpGet("client-latest")]
+        [Authorize]
+        public IActionResult GetLatestBookingByUser([FromQuery] int userId)
+        {
+            var booking = _bookingService.GetLatestBookingByUser(userId);
             if (booking == null)
                 return NotFound();
 

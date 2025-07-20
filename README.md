@@ -16,6 +16,13 @@ A real-time taxi booking service built with C# (.NET Core), HTML/CSS/JS, and SQL
 - JWT token authorization
 - SignalR dotnet nutget package library
 
+##Packages needed
+- ASP.NET Core Web API:	Microsoft.AspNetCore.Mvc.NewtonsoftJson, command:	dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson
+- Entity Framework Core: Microsoft.EntityFrameworkCore, command:	dotnet add package Microsoft.EntityFrameworkCore
+- EF Core for SQL Server: Microsoft.EntityFrameworkCore.SqlServer, command:	dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+- EF Core Tools: Microsoft.EntityFrameworkCore.Tools, command:	dotnet add package Microsoft.EntityFrameworkCore.Tools
+- JWT Authentication:	Microsoft.AspNetCore.Authentication.JwtBearer, command:	dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
 ## HOW TO USE
 - Clone the repo to your device.
 - Download Visual Studio Community Version and run the backend via http port.

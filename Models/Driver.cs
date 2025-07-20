@@ -23,7 +23,6 @@ namespace MyTaxiService.Models
 
         public bool IsAvailable { get; set; } = true;
         public string? CurrentLocation { get; set; }
-        public double Rating { get; set; } = 5.0;
 
         [Required]
         public string Username { get; set; } = string.Empty;

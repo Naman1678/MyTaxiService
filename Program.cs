@@ -7,6 +7,7 @@ using MyTaxiService.Repository;
 using MyTaxiService.Repository.Interfaces;
 using MyTaxiService.Services;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,21 +65,19 @@ builder.Services.AddScoped<BookingService>();
 
 // Register SignalR
 builder.Services.AddSignalR();
-
-// Enable CORS
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowSpecificOrigin", p =>
-        p.WithOrigins("http://127.0.0.1:5500") // your frontend port
+        p.WithOrigins("http://127.0.0.1:5500") // your frontend port in the local server
          .AllowAnyHeader()
          .AllowAnyMethod()
          .AllowCredentials());
 });
 
-// Add Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-// Build the app
 var app = builder.Build();
 
 // Configure middleware

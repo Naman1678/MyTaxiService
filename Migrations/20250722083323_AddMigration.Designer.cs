@@ -12,8 +12,8 @@ using MyTaxiService.Data;
 namespace MyTaxiService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250611055001_FixDriverRatingType")]
-    partial class FixDriverRatingType
+    [Migration("20250722083323_AddMigration")]
+    partial class AddMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,30 +58,11 @@ namespace MyTaxiService.Migrations
 
                     b.HasKey("BookingId");
 
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("MyTaxiService.Models.CancellationLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("CancellationFee")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RideId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CancellationLogs");
                 });
 
             modelBuilder.Entity("MyTaxiService.Models.Driver", b =>
@@ -91,6 +72,10 @@ namespace MyTaxiService.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DriverId"));
+
+                    b.Property<string>("CarNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrentLocation")
                         .HasColumnType("nvarchar(max)");
@@ -104,14 +89,20 @@ namespace MyTaxiService.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VehicleType")
                         .IsRequired()
@@ -129,9 +120,6 @@ namespace MyTaxiService.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("DriverID")
                         .HasColumnType("int");
@@ -160,11 +148,11 @@ namespace MyTaxiService.Migrations
 
             modelBuilder.Entity("MyTaxiService.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -176,11 +164,40 @@ namespace MyTaxiService.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MyTaxiService.Models.Booking", b =>
+                {
+                    b.HasOne("MyTaxiService.Models.Driver", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("DriverId");
+
+                    b.HasOne("MyTaxiService.Models.User", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyTaxiService.Models.Driver", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("MyTaxiService.Models.User", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

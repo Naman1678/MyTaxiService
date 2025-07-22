@@ -176,15 +176,20 @@ namespace MyTaxiService.Migrations
 
             modelBuilder.Entity("MyTaxiService.Models.Booking", b =>
                 {
-                    b.HasOne("MyTaxiService.Models.Driver", null)
+                    b.HasOne("MyTaxiService.Models.Driver", "Driver")
                         .WithMany("Bookings")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("MyTaxiService.Models.User", null)
+                    b.HasOne("MyTaxiService.Models.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyTaxiService.Models.Driver", b =>

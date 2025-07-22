@@ -5,25 +5,25 @@
 namespace MyTaxiService.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class AddProperty : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "UserId",
-                table: "Users",
-                type: "int",
+            migrationBuilder.AddColumn<string>(
+                name: "DriverName",
+                table: "Bookings",
+                type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Users");
+                name: "DriverName",
+                table: "Bookings");
         }
     }
 }

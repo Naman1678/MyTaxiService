@@ -12,8 +12,8 @@ using MyTaxiService.Data;
 namespace MyTaxiService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250710064520_AddNavigationPropertiesToBooking")]
-    partial class AddNavigationPropertiesToBooking
+    [Migration("20250722084306_RemovedDriverStringProperty")]
+    partial class RemovedDriverStringProperty
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,29 +65,6 @@ namespace MyTaxiService.Migrations
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("MyTaxiService.Models.CancellationLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("CancellationFee")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RideId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CancellationLogs");
-                });
-
             modelBuilder.Entity("MyTaxiService.Models.Driver", b =>
                 {
                     b.Property<int>("DriverId")
@@ -95,6 +72,10 @@ namespace MyTaxiService.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DriverId"));
+
+                    b.Property<string>("CarNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrentLocation")
                         .HasColumnType("nvarchar(max)");
@@ -119,9 +100,6 @@ namespace MyTaxiService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -142,9 +120,6 @@ namespace MyTaxiService.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("DriverID")
                         .HasColumnType("int");
@@ -185,8 +160,7 @@ namespace MyTaxiService.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -205,19 +179,15 @@ namespace MyTaxiService.Migrations
 
             modelBuilder.Entity("MyTaxiService.Models.Booking", b =>
                 {
-                    b.HasOne("MyTaxiService.Models.Driver", "Driver")
+                    b.HasOne("MyTaxiService.Models.Driver", null)
                         .WithMany("Bookings")
                         .HasForeignKey("DriverId");
 
-                    b.HasOne("MyTaxiService.Models.User", "User")
+                    b.HasOne("MyTaxiService.Models.User", null)
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Driver");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyTaxiService.Models.Driver", b =>

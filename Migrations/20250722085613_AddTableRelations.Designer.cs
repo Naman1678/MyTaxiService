@@ -12,8 +12,8 @@ using MyTaxiService.Data;
 namespace MyTaxiService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250720113609_UpdatedModel")]
-    partial class UpdatedModel
+    [Migration("20250722085613_AddTableRelations")]
+    partial class AddTableRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,15 +179,20 @@ namespace MyTaxiService.Migrations
 
             modelBuilder.Entity("MyTaxiService.Models.Booking", b =>
                 {
-                    b.HasOne("MyTaxiService.Models.Driver", null)
+                    b.HasOne("MyTaxiService.Models.Driver", "Driver")
                         .WithMany("Bookings")
-                        .HasForeignKey("DriverId");
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("MyTaxiService.Models.User", null)
+                    b.HasOne("MyTaxiService.Models.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyTaxiService.Models.Driver", b =>
